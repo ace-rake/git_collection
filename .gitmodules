@@ -1,18 +1,18 @@
 [submodule "ft_printf"]
 	path = ft_printf
-	url = ./
+	url = git@github.com:ace-rake/ft_printf.git
 [submodule "get_next_line"]
 	path = get_next_line
-	url = ./
+	url = git@github.com:ace-rake/get_next_line.git
 [submodule "libft"]
 	path = libft
-	url = ./
+	url = git@github.com:ace-rake/Libft.git
 [submodule "pipex"]
 	path = pipex
-	url = ./
+	url = git@github.com:ace-rake/pipex.git
 [submodule "push_swap"]
 	path = push_swap
-	url = ./
+	url = git@github.com:ace-rake/push-swap.git
 [submodule "so_long"]
 	path = so_long
-	url = ./
+	url = git@github.com:ace-rake/so-long.git
