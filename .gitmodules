@@ -1,0 +1,18 @@
+[submodule "ft_printf"]
+	path = ft_printf
+	url = ./
+[submodule "get_next_line"]
+	path = get_next_line
+	url = ./
+[submodule "libft"]
+	path = libft
+	url = ./
+[submodule "pipex"]
+	path = pipex
+	url = ./
+[submodule "push_swap"]
+	path = push_swap
+	url = ./
+[submodule "so_long"]
+	path = so_long
+	url = ./
