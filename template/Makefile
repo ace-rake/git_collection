@@ -119,7 +119,7 @@ TEST_DIR := test
 
 .PHONY: test
 
-test:
+test:	pre_test
 	echo "$(GREEN)Starting tests$(WHITE)"
 	if [ -d "$(TEST_DIR)" ]; then make -s run_tests;else echo "$(RED)$(TEST_DIR) directory does not exist$(WHITE)"; fi
 
@@ -132,23 +132,42 @@ test2: $(TEST_OBJS)
 	echo "$(TEST_SRCS)\n$(TEST_OBJS)\n$(NEC_OBJS)\n$(TOTAL_TESTS)"
 	make run_tests
 
-LOG_COUNT := 0
-LOG_DIR := test/log/
-LOG_SUBDIR := $(basename $(notdir $(TEST_OBJS)))
+TMP_VAL_LOG:= /tmp/tmp_val_log
+VAL_ERR := 42
+VAL_OK_MSG := $(GREEN)[VAL_OK]\n$(WHITE)
+VAL_KO_MSG := $(RED)[VAL_KO]\n$(WHITE)
+COMP_KO_MSG := $(RED)[COMP_KO]$(WHITE)
+EXEC_OK_MSG := $(GREEN)[OK]\n$(WHITE)
+EXEC_KO_MSG := $(RED)[KO]\n$(WHITE)
+TEST:= 0 
 
 t:
-	for file in $(TEST_OBJS); do\
-		echo "$(shell $(cat $${file}))";\
-	done
+	echo "$(LOG_COUNT)"
 
-run_tests:
+pre_test:
+	$(shell touch $(VAL_RETURN_FILE))
+
+run_tests: $(TEST_OBJS)
 	for file in $(TEST_OBJS); do \
-        echo "compiling and running $${file}" &&\
+        echo "\ncompiling and running $${file}" &&\
 		if cc $${file} $(NEC_OBJS) -o whoa 2>/dev/null; then\
 			echo "$(GREEN)Compiled$(WHITE)" && \
-			valgrind --leak-check=full --log-file="$(shell $(notdir $(basename $${file})))_log" ./whoa; \
+			if ./whoa > $(TMP_VAL_LOG); then \
+				printf "$(EXEC_OK_MSG)"; \
+			else \
+				printf "$(EXEC_KO_MSG)"; \
+			fi ;\
+			valgrind --leak-check=full --error-exitcode=$(VAL_ERR) --log-file="$(TMP_VAL_LOG)" ./whoa > output_test_log ; \
+			EXIT_STATUS=$$?;\
+			if [ $$EXIT_STATUS -eq $(VAL_ERR) ]; then \
+				printf "$(VAL_KO_MSG)"; \
+			else \
+				printf "$(VAL_OK_MSG)";\
+			fi;\
 		else \
-			echo "$(RED)compilation of $${file} failed$(WHITE)";\
+			echo "$(COMP_KO_MSG)";\
 		fi;\
 	done
+	rm -f $(TMP_VAL_LOG)
 	rm whoa
+
