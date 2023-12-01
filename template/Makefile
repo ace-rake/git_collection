@@ -119,7 +119,7 @@ TEST_DIR := test
 
 .PHONY: test
 
-test:	pre_test
+test:
 	echo "$(GREEN)Starting tests$(WHITE)"
 	if [ -d "$(TEST_DIR)" ]; then make -s run_tests;else echo "$(RED)$(TEST_DIR) directory does not exist$(WHITE)"; fi
 
@@ -138,25 +138,21 @@ VAL_OK_MSG := $(GREEN)[VAL_OK]\n$(WHITE)
 VAL_KO_MSG := $(RED)[VAL_KO]\n$(WHITE)
 COMP_KO_MSG := $(RED)[COMP_KO]$(WHITE)
 EXEC_OK_MSG := $(GREEN)[OK]\n$(WHITE)
-EXEC_KO_MSG := $(RED)[KO]\n$(WHITE)
+EXEC_KO_MSG := $(RED)[KO : $$EXIT_STATUS]\n$(WHITE)
 TEST:= 0 
-
-t:
-	echo "$(LOG_COUNT)"
-
-pre_test:
-	$(shell touch $(VAL_RETURN_FILE))
 
 run_tests: $(TEST_OBJS)
 	for file in $(TEST_OBJS); do \
         echo "\ncompiling and running $${file}" &&\
 		if cc $${file} $(NEC_OBJS) -o whoa 2>/dev/null; then\
 			echo "$(GREEN)Compiled$(WHITE)" && \
-			if ./whoa > $(TMP_VAL_LOG); then \
+			./whoa > $(TMP_VAL_LOG);\
+			EXIT_STATUS=$$?;\
+			if [ $$EXIT_STATUS -eq 0 ]; then \
 				printf "$(EXEC_OK_MSG)"; \
 			else \
 				printf "$(EXEC_KO_MSG)"; \
-			fi ;\
+			fi;\
 			valgrind --leak-check=full --error-exitcode=$(VAL_ERR) --log-file="$(TMP_VAL_LOG)" ./whoa > output_test_log ; \
 			EXIT_STATUS=$$?;\
 			if [ $$EXIT_STATUS -eq $(VAL_ERR) ]; then \
