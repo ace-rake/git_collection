@@ -91,6 +91,8 @@ fclean:
 				rm -f $(NAME)
 				echo "$(YELLOW)removed $(NAME)$(WHITE)"
 
+re: fclean all
+
 all: build
 
 build:			
@@ -101,7 +103,6 @@ build:
 pre_build:
 	echo "$(GREEN)Creating $(NAME)$(WHITE)"
 	echo "0" > $(PROGRESS_FILE)
-	echo "tmp $(SRCS)"
 
 $(NAME): $(OBJS)
 	cc $(OBJS) -o $(NAME)
@@ -119,51 +120,85 @@ TEST_DIR := test
 
 .PHONY: test
 
-test:
+test: $(OBJS)
 	echo "$(GREEN)Starting tests$(WHITE)"
 	if [ -d "$(TEST_DIR)" ]; then make -s run_tests;else echo "$(RED)$(TEST_DIR) directory does not exist$(WHITE)"; fi
 
+test_out: $(OBJS)
+	echo "$(GREEN)Starting tests$(WHITE)"
+	if [ -d "$(TEST_DIR)" ]; then make -s run_tests_output;else echo "$(RED)$(TEST_DIR) directory does not exist$(WHITE)"; fi
+
 TEST_SRCS := $(shell find ./$(TEST_DIR) -name *test.c) 
 TEST_OBJS := $(TEST_SRCS:%.c=$(OBJDIR)/%.o)
-NEC_OBJS := $(shell find obj/src -name *.o)
+NEC_OBJS := $(shell find obj/src -name *.o 2> /dev/null)
 TOTAL_TESTS := $(words $(TEST_SRCS))
 
 test2: $(TEST_OBJS)
 	echo "$(TEST_SRCS)\n$(TEST_OBJS)\n$(NEC_OBJS)\n$(TOTAL_TESTS)"
 	make run_tests
 
-TMP_VAL_LOG:= /tmp/tmp_val_log
 VAL_ERR := 42
 VAL_OK_MSG := $(GREEN)[VAL_OK]\n$(WHITE)
 VAL_KO_MSG := $(RED)[VAL_KO]\n$(WHITE)
 COMP_KO_MSG := $(RED)[COMP_KO]$(WHITE)
+COMP_OK_MSG	:= $(GREEN)[COMP_OK]$(WHITE)
 EXEC_OK_MSG := $(GREEN)[OK]\n$(WHITE)
 EXEC_KO_MSG := $(RED)[KO : $$EXIT_STATUS]\n$(WHITE)
-TEST:= 0 
+DEV_NULL	:= /dev/null
+OUTPUT_FILE := $(DEV_NULL)
 
 run_tests: $(TEST_OBJS)
 	for file in $(TEST_OBJS); do \
-        echo "\ncompiling and running $${file}" &&\
-		if cc $${file} $(NEC_OBJS) -o whoa 2>/dev/null; then\
-			echo "$(GREEN)Compiled$(WHITE)" && \
-			./whoa > $(TMP_VAL_LOG);\
-			EXIT_STATUS=$$?;\
+        echo "\ncompiling and running $${file}" && \
+		if cc $${file} $(NEC_OBJS) -w -o whoa 2>$(DEV_NULL); then \
+			echo "$(COMP_OK_MSG)" && \
+			./whoa > $(DEV_NULL) ; \
+			EXIT_STATUS=$$?; \
 			if [ $$EXIT_STATUS -eq 0 ]; then \
 				printf "$(EXEC_OK_MSG)"; \
 			else \
 				printf "$(EXEC_KO_MSG)"; \
-			fi;\
-			valgrind --leak-check=full --error-exitcode=$(VAL_ERR) --log-file="$(TMP_VAL_LOG)" ./whoa > output_test_log ; \
-			EXIT_STATUS=$$?;\
+			fi; \
+			valgrind --leak-check=full --error-exitcode=$(VAL_ERR) ./whoa > $(DEV_NULL) 2>&1; \
+			EXIT_STATUS=$$?; \
 			if [ $$EXIT_STATUS -eq $(VAL_ERR) ]; then \
 				printf "$(VAL_KO_MSG)"; \
 			else \
-				printf "$(VAL_OK_MSG)";\
-			fi;\
+				printf "$(VAL_OK_MSG)"; \
+			fi; \
 		else \
-			echo "$(COMP_KO_MSG)";\
-		fi;\
+			echo "$(COMP_KO_MSG)"; \
+		fi; \
 	done
-	rm -f $(TMP_VAL_LOG)
 	rm whoa
 
+
+run_tests_output: $(TEST_OBJS)
+	$(eval LOG_COUNT := $(words $(shell find ./$(TEST_DIR)/log -name *log*.txt)))
+	$(eval OUTPUT_FILE := $(TEST_DIR)/log/test_log_$(LOG_COUNT).txt)
+	mkdir -p $(TEST_DIR)/log
+	printf "storing log in $(OUTPUT_FILE)\n"
+	for file in $(TEST_OBJS); do \
+		echo "\n\nlog start $${file}\n" >> $(OUTPUT_FILE); \
+        echo "\ncompiling and running $${file}" && \
+		if cc $${file} $(NEC_OBJS) -w -o whoa 2>>$(OUTPUT_FILE); then \
+			echo "$(COMP_OK_MSG)" && \
+			./whoa >> $(OUTPUT_FILE) ; \
+			EXIT_STATUS=$$?; \
+			if [ $$EXIT_STATUS -eq 0 ]; then \
+				printf "$(EXEC_OK_MSG)"; \
+			else \
+				printf "$(EXEC_KO_MSG)"; \
+			fi; \
+			valgrind --leak-check=full --error-exitcode=$(VAL_ERR) ./whoa >> $(OUTPUT_FILE) 2>> $(OUTPUT_FILE); \
+			EXIT_STATUS=$$?; \
+			if [ $$EXIT_STATUS -eq $(VAL_ERR) ]; then \
+				printf "$(VAL_KO_MSG)"; \
+			else \
+				printf "$(VAL_OK_MSG)"; \
+			fi; \
+		else \
+			echo "$(COMP_KO_MSG)"; \
+		fi; \
+	done
+	rm whoa

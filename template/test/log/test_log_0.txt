@@ -1,0 +1,154 @@
+
+
+log start obj/./test/no_main_test.o
+
+/usr/bin/ld: /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o: in function `_start':
+(.text+0x24): undefined reference to `main'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+
+log start obj/./test/mem_leak_test.o
+
+==512871== Memcheck, a memory error detector
+==512871== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==512871== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==512871== Command: ./whoa
+==512871== 
+==512871== 
+==512871== HEAP SUMMARY:
+==512871==     in use at exit: 20 bytes in 1 blocks
+==512871==   total heap usage: 1 allocs, 0 frees, 20 bytes allocated
+==512871== 
+==512871== 20 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==512871==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==512871==    by 0x401151: main (in /nfs/homes/vdenisse/Documents/git_collection/template/whoa)
+==512871== 
+==512871== LEAK SUMMARY:
+==512871==    definitely lost: 20 bytes in 1 blocks
+==512871==    indirectly lost: 0 bytes in 0 blocks
+==512871==      possibly lost: 0 bytes in 0 blocks
+==512871==    still reachable: 0 bytes in 0 blocks
+==512871==         suppressed: 0 bytes in 0 blocks
+==512871== 
+==512871== For lists of detected and suppressed errors, rerun with: -s
+==512871== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+
+
+log start obj/./test/non_zero_return_2_test.o
+
+==512875== Memcheck, a memory error detector
+==512875== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==512875== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==512875== Command: ./whoa
+==512875== 
+==512875== 
+==512875== HEAP SUMMARY:
+==512875==     in use at exit: 0 bytes in 0 blocks
+==512875==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==512875== 
+==512875== All heap blocks were freed -- no leaks are possible
+==512875== 
+==512875== For lists of detected and suppressed errors, rerun with: -s
+==512875== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+
+log start obj/./test/test.o
+
+test.c
+==512880== Memcheck, a memory error detector
+==512880== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==512880== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==512880== Command: ./whoa
+==512880== 
+test.c
+==512880== 
+==512880== HEAP SUMMARY:
+==512880==     in use at exit: 0 bytes in 0 blocks
+==512880==   total heap usage: 1 allocs, 1 frees, 8,192 bytes allocated
+==512880== 
+==512880== All heap blocks were freed -- no leaks are possible
+==512880== 
+==512880== For lists of detected and suppressed errors, rerun with: -s
+==512880== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+
+log start obj/./test/non_zero_return_test.o
+
+==512884== Memcheck, a memory error detector
+==512884== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==512884== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==512884== Command: ./whoa
+==512884== 
+==512884== 
+==512884== HEAP SUMMARY:
+==512884==     in use at exit: 0 bytes in 0 blocks
+==512884==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==512884== 
+==512884== All heap blocks were freed -- no leaks are possible
+==512884== 
+==512884== For lists of detected and suppressed errors, rerun with: -s
+==512884== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+
+log start obj/./test/write_test.o
+
+==512888== Memcheck, a memory error detector
+==512888== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==512888== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==512888== Command: ./whoa
+==512888== 
+==512888== Invalid write of size 1
+==512888==    at 0x401189: main (in /nfs/homes/vdenisse/Documents/git_collection/template/whoa)
+==512888==  Address 0x4a57042 is 0 bytes after a block of size 2 alloc'd
+==512888==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==512888==    by 0x401168: main (in /nfs/homes/vdenisse/Documents/git_collection/template/whoa)
+==512888== 
+==512888== 
+==512888== HEAP SUMMARY:
+==512888==     in use at exit: 0 bytes in 0 blocks
+==512888==   total heap usage: 1 allocs, 1 frees, 2 bytes allocated
+==512888== 
+==512888== All heap blocks were freed -- no leaks are possible
+==512888== 
+==512888== For lists of detected and suppressed errors, rerun with: -s
+==512888== ERROR SUMMARY: 498 errors from 1 contexts (suppressed: 0 from 0)
+
+
+log start obj/./test/func_call_test.o
+
+this is a source function
+==512892== Memcheck, a memory error detector
+==512892== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==512892== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==512892== Command: ./whoa
+==512892== 
+this is a source function
+==512892== 
+==512892== HEAP SUMMARY:
+==512892==     in use at exit: 0 bytes in 0 blocks
+==512892==   total heap usage: 1 allocs, 1 frees, 8,192 bytes allocated
+==512892== 
+==512892== All heap blocks were freed -- no leaks are possible
+==512892== 
+==512892== For lists of detected and suppressed errors, rerun with: -s
+==512892== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+
+log start obj/./test/this_a_test.o
+
+this a test.c
+==512896== Memcheck, a memory error detector
+==512896== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==512896== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==512896== Command: ./whoa
+==512896== 
+this a test.c
+==512896== 
+==512896== HEAP SUMMARY:
+==512896==     in use at exit: 0 bytes in 0 blocks
+==512896==   total heap usage: 1 allocs, 1 frees, 8,192 bytes allocated
+==512896== 
+==512896== All heap blocks were freed -- no leaks are possible
+==512896== 
+==512896== For lists of detected and suppressed errors, rerun with: -s
+==512896== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
