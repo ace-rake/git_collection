@@ -1,0 +1,5 @@
+/nfs/homes/vdenisse/Documents/git_collection/template/cmake/CMakeFiles/rebuild_cache.dir
+/nfs/homes/vdenisse/Documents/git_collection/template/cmake/CMakeFiles/edit_cache.dir
+/nfs/homes/vdenisse/Documents/git_collection/template/cmake/CMakeFiles/re.dir
+/nfs/homes/vdenisse/Documents/git_collection/template/cmake/CMakeFiles/fclean.dir
+/nfs/homes/vdenisse/Documents/git_collection/template/cmake/CMakeFiles/my_app.dir
