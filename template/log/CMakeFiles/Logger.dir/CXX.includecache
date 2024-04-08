@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/nfs/homes/vdenisse/Documents/git_collection/template/log/Logger.cpp
+Logger.hpp
+/nfs/homes/vdenisse/Documents/git_collection/template/log/Logger.hpp
+
+/nfs/homes/vdenisse/Documents/git_collection/template/log/Logger.hpp
+iostream
+-
+fstream
+-
+chrono
+-
+ctime
+-
+colors.h
+/nfs/homes/vdenisse/Documents/git_collection/template/log/colors.h
+
+/nfs/homes/vdenisse/Documents/git_collection/template/log/colors.h
+iostream
+-
+string
+-
+

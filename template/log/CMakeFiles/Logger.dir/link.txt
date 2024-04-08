@@ -1,0 +1,1 @@
+/usr/bin/c++    -Wall -Werror -Wextra -g CMakeFiles/Logger.dir/Logger.cpp.o CMakeFiles/Logger.dir/main.cpp.o  -o Logger 

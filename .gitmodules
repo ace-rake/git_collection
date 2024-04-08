@@ -19,3 +19,9 @@
 [submodule "Philosophers"]
 	path = Philosophers
 	url = git@github.com:ace-rake/Philosophers.git
+[submodule "Cub3d"]
+	path = Cub3d
+	url = git@github.com:ace-rake/Cub3d.git
+[submodule "cpp"]
+	path = cpp
+	url = git@github.com:ace-rake/cpp.git

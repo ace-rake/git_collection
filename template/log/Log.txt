@@ -1,0 +1,16 @@
+
+Mon Apr  8 11:51:49 2024
+Start of log
+[32;1m
+Mon Apr  8 11:51:49 2024
+test[0m
+
+[31;1mMon Apr  8 11:51:49 2024
+error[0m
+[32;1m
+Mon Apr  8 11:51:49 2024
+rest[0m
+
+Mon Apr  8 11:51:49 2024
+End of log
+

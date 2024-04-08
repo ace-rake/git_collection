@@ -1,0 +1,5 @@
+/nfs/homes/vdenisse/Documents/git_collection/template/log/CMakeFiles/rebuild_cache.dir
+/nfs/homes/vdenisse/Documents/git_collection/template/log/CMakeFiles/edit_cache.dir
+/nfs/homes/vdenisse/Documents/git_collection/template/log/CMakeFiles/fclean.dir
+/nfs/homes/vdenisse/Documents/git_collection/template/log/CMakeFiles/re.dir
+/nfs/homes/vdenisse/Documents/git_collection/template/log/CMakeFiles/Logger.dir
