@@ -1,0 +1,26 @@
+#ifndef {{MACRO_GUARD}}
+# define {{MACRO_GUARD}}
+;
+// Custom class: {{FILE}}
+class	{{FILE}}
+{
+	public:
+		// Constructor
+		{{FILE}}	(	void	);
+
+		// Copy constructor
+		{{FILE}}	(	const {{FILE}}& other	);
+
+		// Copy assignment operator overload
+		{{FILE}}& operator = (const {{FILE}}& other);
+
+		// Destructor
+		~{{FILE}}	(void);
+
+		// Getters and Setter
+
+	protected:
+		/*_*/;
+};
+
+#endif
