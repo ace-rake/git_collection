@@ -25,3 +25,6 @@
 [submodule "cpp"]
 	path = cpp
 	url = git@github.com:ace-rake/cpp.git
+[submodule "zappy"]
+	path = zappy
+	url = git@github.com:ahooghe/zappy.git
